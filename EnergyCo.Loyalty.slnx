@@ -8,4 +8,8 @@
   <Folder Name="/tests/">
     <Project Path="tests/EnergyCo.Loyalty.UnitTests/EnergyCo.Loyalty.UnitTests.csproj" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="Dockerfile" />
+    <File Path="docker-compose.yml" />
+  </Folder>
 </Solution>
