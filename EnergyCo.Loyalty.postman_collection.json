@@ -1,0 +1,517 @@
+{
+  "info": {
+    "_postman_id": "energyco-loyalty-v1",
+    "name": "EnergyCo Loyalty API",
+    "description": "EnergyCo Loyalty API collection.\n\nImport alongside EnergyCo.Loyalty.postman_environment.json and select the EnergyCo Loyalty - Docker environment.\n\nProduct catalogue:\n  PRD01  Vortex 95     $1.20  Fuel\n  PRD02  Vortex 98     $1.30  Fuel\n  PRD03  Diesel        $1.10  Fuel\n  PRD04  Twix 55g      $2.30  Shop\n  PRD05  Mars 72g      $5.10  Shop\n  PRD06  SNICKERS 72G  $3.40  Shop\n  PRD07  Bounty 3 63g  $6.90  Shop\n  PRD08  Snickers 50g  $4.00  Shop\n\nActive promotions:\n  PP001  2 pts/$  Any   01-Jan-2020 to 30-Jan-2020\n  PP002  3 pts/$  Fuel  05-Feb-2020 to 15-Feb-2020\n  PP003  4 pts/$  Shop  01-Mar-2020 to 20-Mar-2020\n  DP001  20% off  PRD01+PRD02  01-Jan-2020 to 15-Feb-2020\n  DP002  15% off  PRD04-PRD08  02-Mar-2020 to 20-Mar-2020\n\nDate format: dd-MMM-yyyy e.g. 10-Mar-2020",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "GET all products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products"]
+            },
+            "description": "Returns the full product catalogue. Expects 200 with an array of 8 products."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Basket",
+      "item": [
+        {
+          "name": "GET basket - not found (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket"]
+            },
+            "description": "Basket does not exist yet for this customer. Expects 404."
+          },
+          "response": []
+        },
+        {
+          "name": "POST add Vortex 95 (PRD01)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"PRD01\",\n  \"unitPrice\": 1.20,\n  \"quantity\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "items"]
+            },
+            "description": "Add 10 x Vortex 95 at catalogue price $1.20. Expects 204."
+          },
+          "response": []
+        },
+        {
+          "name": "POST add Vortex 98 (PRD02)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"PRD02\",\n  \"unitPrice\": 1.30,\n  \"quantity\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "items"]
+            },
+            "description": "Add 5 x Vortex 98 at $1.30. Expects 204."
+          },
+          "response": []
+        },
+        {
+          "name": "POST add Diesel (PRD03)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"PRD03\",\n  \"unitPrice\": 1.10,\n  \"quantity\": 8\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "items"]
+            },
+            "description": "Add 8 x Diesel at $1.10. Expects 204."
+          },
+          "response": []
+        },
+        {
+          "name": "POST add Twix 55g (PRD04)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"PRD04\",\n  \"unitPrice\": 2.30,\n  \"quantity\": 3\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "items"]
+            },
+            "description": "Add 3 x Twix 55g at $2.30. Expects 204."
+          },
+          "response": []
+        },
+        {
+          "name": "POST add Mars 72g (PRD05)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"PRD05\",\n  \"unitPrice\": 5.10,\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "items"]
+            },
+            "description": "Add 2 x Mars 72g at $5.10. Expects 204."
+          },
+          "response": []
+        },
+        {
+          "name": "POST add item - wrong price (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"PRD01\",\n  \"unitPrice\": 9.99,\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "items"]
+            },
+            "description": "PRD01 catalogue price is $1.20, not $9.99. Expects 400."
+          },
+          "response": []
+        },
+        {
+          "name": "POST add item - unknown product (404)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"PRD99\",\n  \"unitPrice\": 1.00,\n  \"quantity\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "items"]
+            },
+            "description": "PRD99 does not exist. Expects 404."
+          },
+          "response": []
+        },
+        {
+          "name": "POST add item - validation error (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"\",\n  \"unitPrice\": 0,\n  \"quantity\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "items"]
+            },
+            "description": "Empty productId, zero price, zero quantity. Expects 400."
+          },
+          "response": []
+        },
+        {
+          "name": "GET basket - with items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket"]
+            },
+            "description": "Retrieve basket after items were added. Expects 200 with items and subtotal."
+          },
+          "response": []
+        },
+        {
+          "name": "POST checkout - no promotions (15-Dec-2019)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"15-Dec-2019\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout"]
+            },
+            "description": "No promotions active on 15-Dec-2019. Expects discount=0 and pointsEarned=0. Run the add-item requests first."
+          },
+          "response": []
+        },
+        {
+          "name": "POST checkout - PP001 New Year Promo (10-Jan-2020, 2 pts/$ Any)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"10-Jan-2020\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout"]
+            },
+            "description": "PP001 - 2 pts/$ on Any category, 01-Jan to 30-Jan-2020. Points = floor(lineTotal) x 2. Run add-item requests first."
+          },
+          "response": []
+        },
+        {
+          "name": "POST checkout - PP002 Fuel Promo (10-Feb-2020, 3 pts/$ Fuel)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"10-Feb-2020\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout"]
+            },
+            "description": "PP002 - 3 pts/$ on Fuel, 05-Feb to 15-Feb-2020. Points from Fuel items only. Run add-item requests first."
+          },
+          "response": []
+        },
+        {
+          "name": "POST checkout - PP003 Shop Promo (10-Mar-2020, 4 pts/$ Shop)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"10-Mar-2020\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout"]
+            },
+            "description": "PP003 - 4 pts/$ on Shop, 01-Mar to 20-Mar-2020. Points from Shop items only. Run add-item requests first."
+          },
+          "response": []
+        },
+        {
+          "name": "POST checkout - DP001 Fuel Discount (05-Jan-2020, 20% off PRD01+PRD02)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"05-Jan-2020\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout"]
+            },
+            "description": "DP001 - 20% off PRD01+PRD02, 01-Jan to 15-Feb-2020. Basket must contain PRD01 or PRD02. Run add-item requests first."
+          },
+          "response": []
+        },
+        {
+          "name": "POST checkout - DP002 + PP003 overlap (10-Mar-2020)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000002\",\n  \"transactionDate\": \"10-Mar-2020\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout"]
+            },
+            "description": "DP002 - 15% off PRD04-PRD08 AND PP003 - 4 pts/$ Shop, both active 02-Mar to 20-Mar-2020. Both discount and points apply simultaneously. Run add-item requests first."
+          },
+          "response": []
+        },
+        {
+          "name": "POST checkout - invalid date format (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"2020-04-03\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout"]
+            },
+            "description": "ISO-8601 date string instead of dd-MMM-yyyy. Expects 400 mentioning the required format."
+          },
+          "response": []
+        },
+        {
+          "name": "POST checkout - basket not found (404)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"03-Apr-2020\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/00000000-0000-0000-0000-000000000000/basket/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "00000000-0000-0000-0000-000000000000", "basket", "checkout"]
+            },
+            "description": "Customer with nil UUID has no basket. Expects 404."
+          },
+          "response": []
+        },
+        {
+          "name": "POST checkout - empty basket (422)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"03-Apr-2020\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout"]
+            },
+            "description": "Customer has a basket but it contains no items. Expects 422 Unprocessable Entity."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Express Checkout",
+      "item": [
+        {
+          "name": "POST express checkout - no promotions (15-Dec-2019)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"15-Dec-2019\",\n  \"items\": [\n    { \"productId\": \"PRD01\", \"unitPrice\": 1.20, \"quantity\": 10 },\n    { \"productId\": \"PRD04\", \"unitPrice\": 2.30, \"quantity\": 3 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout/express",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout", "express"]
+            },
+            "description": "Single atomic request on a date with no active promotions. Expects discount=0 and pointsEarned=0."
+          },
+          "response": []
+        },
+        {
+          "name": "POST express checkout - PP001 New Year Promo (10-Jan-2020, 2 pts/$ Any)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"10-Jan-2020\",\n  \"items\": [\n    { \"productId\": \"PRD01\", \"unitPrice\": 1.20, \"quantity\": 10 },\n    { \"productId\": \"PRD02\", \"unitPrice\": 1.30, \"quantity\": 5 },\n    { \"productId\": \"PRD04\", \"unitPrice\": 2.30, \"quantity\": 3 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout/express",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout", "express"]
+            },
+            "description": "PP001 - 2 pts/$ on Any, 01-Jan to 30-Jan-2020. Points = floor(lineTotal) x 2."
+          },
+          "response": []
+        },
+        {
+          "name": "POST express checkout - PP002 + DP001 Fuel overlap (10-Feb-2020)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"10-Feb-2020\",\n  \"items\": [\n    { \"productId\": \"PRD01\", \"unitPrice\": 1.20, \"quantity\": 20 },\n    { \"productId\": \"PRD03\", \"unitPrice\": 1.10, \"quantity\": 8 },\n    { \"productId\": \"PRD05\", \"unitPrice\": 5.10, \"quantity\": 2 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout/express",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout", "express"]
+            },
+            "description": "PP002 (3 pts/$ Fuel) + DP001 (20% off PRD01+PRD02), both active 05-Feb to 15-Feb-2020. Expects pointsEarned from Fuel lines and discountApplied > 0 on PRD01."
+          },
+          "response": []
+        },
+        {
+          "name": "POST express checkout - PP003 + DP002 Shop overlap (10-Mar-2020)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000002\",\n  \"transactionDate\": \"10-Mar-2020\",\n  \"items\": [\n    { \"productId\": \"PRD04\", \"unitPrice\": 2.30, \"quantity\": 2 },\n    { \"productId\": \"PRD06\", \"unitPrice\": 3.40, \"quantity\": 2 },\n    { \"productId\": \"PRD07\", \"unitPrice\": 6.90, \"quantity\": 1 },\n    { \"productId\": \"PRD08\", \"unitPrice\": 4.00, \"quantity\": 3 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout/express",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout", "express"]
+            },
+            "description": "PP003 (4 pts/$ Shop) + DP002 (15% off PRD04-PRD08), both active 02-Mar to 20-Mar-2020. Expects discountApplied > 0 and pointsEarned > 0."
+          },
+          "response": []
+        },
+        {
+          "name": "POST express checkout - wrong price on item (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"03-Apr-2020\",\n  \"items\": [\n    { \"productId\": \"PRD01\", \"unitPrice\": 9.99, \"quantity\": 5 },\n    { \"productId\": \"PRD04\", \"unitPrice\": 2.30, \"quantity\": 1 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout/express",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout", "express"]
+            },
+            "description": "PRD01 catalogue price is $1.20, not $9.99. Expects 400 with price mismatch error."
+          },
+          "response": []
+        },
+        {
+          "name": "POST express checkout - unknown product (404)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"03-Apr-2020\",\n  \"items\": [\n    { \"productId\": \"PRD99\", \"unitPrice\": 1.00, \"quantity\": 1 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout/express",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout", "express"]
+            },
+            "description": "PRD99 does not exist in the catalogue. Expects 404."
+          },
+          "response": []
+        },
+        {
+          "name": "POST express checkout - empty items array (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"03-Apr-2020\",\n  \"items\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout/express",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout", "express"]
+            },
+            "description": "Empty items array. Expects 400 with validation error."
+          },
+          "response": []
+        },
+        {
+          "name": "POST express checkout - invalid date format (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loyaltyCard\": \"CTX0000001\",\n  \"transactionDate\": \"2020-04-03\",\n  \"items\": [\n    { \"productId\": \"PRD01\", \"unitPrice\": 1.20, \"quantity\": 5 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}/basket/checkout/express",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "{{customerId}}", "basket", "checkout", "express"]
+            },
+            "description": "ISO-8601 date string instead of dd-MMM-yyyy. Expects 400."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
