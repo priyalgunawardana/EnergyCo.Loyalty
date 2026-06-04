@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="EnergyCo.Loyalty/EnergyCo.Loyalty.Api.csproj" />
+    <Project Path="src/EnergyCo.Loyalty.Application/EnergyCo.Loyalty.Application.csproj" />
+    <Project Path="src/EnergyCo.Loyalty.Domain/EnergyCo.Loyalty.Domain.csproj" />
+    <Project Path="src/EnergyCo.Loyalty.Infrastructure/EnergyCo.Loyalty.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EnergyCo.Loyalty.UnitTests/EnergyCo.Loyalty.UnitTests.csproj" />
+  </Folder>
+</Solution>
