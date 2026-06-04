@@ -1,0 +1,308 @@
+@EnergyCo.Loyalty_HostAddress = http://localhost:5000
+@CustomerId = 3fa85f64-5717-4562-b3fc-2c963f66afa6
+
+# Product catalogue
+# PRD01  Vortex 95     $1.20  Fuel
+# PRD02  Vortex 98     $1.30  Fuel
+# PRD03  Diesel        $1.10  Fuel
+# PRD04  Twix 55g      $2.30  Shop
+# PRD05  Mars 72g      $5.10  Shop
+# PRD06  SNICKERS 72G  $3.40  Shop
+# PRD07  Bounty 3 63g  $6.90  Shop
+# PRD08  Snickers 50g  $4.00  Shop
+#
+# Active promotions
+# PP001  2 pts/$  Any   01-Jan-2020 – 30-Jan-2020
+# PP002  3 pts/$  Fuel  05-Feb-2020 – 15-Feb-2020
+# PP003  4 pts/$  Shop  01-Mar-2020 – 20-Mar-2020
+# DP001  20% off  PRD01+PRD02  01-Jan-2020 – 15-Feb-2020
+# DP002  15% off  PRD04–PRD08  02-Mar-2020 – 20-Mar-2020
+
+### List all products
+GET {{EnergyCo.Loyalty_HostAddress}}/api/products
+Accept: application/json
+
+###
+
+### Get basket for a customer
+GET {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket
+Accept: application/json
+
+###
+
+### Add Vortex 95 (PRD01) to basket – 10 units at $1.20
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/items
+Content-Type: application/json
+
+{
+  "productId": "PRD01",
+  "unitPrice": 1.20,
+  "quantity": 10
+}
+
+###
+
+### Add Vortex 98 (PRD02) to basket – 5 units at $1.30
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/items
+Content-Type: application/json
+
+{
+  "productId": "PRD02",
+  "unitPrice": 1.30,
+  "quantity": 5
+}
+
+###
+
+### Add Diesel (PRD03) to basket – 8 units at $1.10
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/items
+Content-Type: application/json
+
+{
+  "productId": "PRD03",
+  "unitPrice": 1.10,
+  "quantity": 8
+}
+
+###
+
+### Add Twix 55g (PRD04) to basket – 3 units at $2.30
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/items
+Content-Type: application/json
+
+{
+  "productId": "PRD04",
+  "unitPrice": 2.30,
+  "quantity": 3
+}
+
+###
+
+### Add Mars 72g (PRD05) to basket – 2 units at $5.10
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/items
+Content-Type: application/json
+
+{
+  "productId": "PRD05",
+  "unitPrice": 5.10,
+  "quantity": 2
+}
+
+###
+
+### Add item – wrong price (400)
+# PRD01 catalogue price is $1.20, not $9.99
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/items
+Content-Type: application/json
+
+{
+  "productId": "PRD01",
+  "unitPrice": 9.99,
+  "quantity": 2
+}
+
+###
+
+### Add item – unknown product (404)
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/items
+Content-Type: application/json
+
+{
+  "productId": "PRD99",
+  "unitPrice": 1.00,
+  "quantity": 1
+}
+
+###
+
+### Checkout – no promotions (15-Dec-2019)
+# Expects: discountApplied=0, pointsEarned=0
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "15-Dec-2019"
+}
+
+###
+
+### Checkout – PP001 New Year Promo (10-Jan-2020, 2 pts/$ Any)
+# Expects: pointsEarned > 0, discountApplied = 0
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "10-Jan-2020"
+}
+
+###
+
+### Checkout – PP002 Fuel Promo (10-Feb-2020, 3 pts/$ Fuel)
+# Expects: pointsEarned > 0 (Fuel items only), discountApplied = 0
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "10-Feb-2020"
+}
+
+###
+
+### Checkout – DP001 Fuel Discount (05-Jan-2020, 20% off PRD01+PRD02)
+# Expects: discountApplied > 0, grandTotal < totalAmount
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "05-Jan-2020"
+}
+
+###
+
+### Checkout – DP002 + PP003 overlap (10-Mar-2020)
+# Both active: DP002 15% off Shop, PP003 4 pts/$ Shop
+# Expects: discountApplied > 0, pointsEarned > 0
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000002",
+  "transactionDate": "10-Mar-2020"
+}
+
+###
+
+### Checkout – basket not found (404)
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/00000000-0000-0000-0000-000000000000/basket/checkout
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "03-Apr-2020"
+}
+
+###
+
+### Checkout – invalid date format (400)
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "2020-04-03"
+}
+
+###
+
+### Express checkout – no promotions (15-Dec-2019)
+# Expects: discountApplied=0, pointsEarned=0
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout/express
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "15-Dec-2019",
+  "items": [
+    { "productId": "PRD01", "unitPrice": 1.20, "quantity": 10 },
+    { "productId": "PRD04", "unitPrice": 2.30, "quantity": 3  }
+  ]
+}
+
+###
+
+### Express checkout – PP001 New Year Promo (10-Jan-2020, 2 pts/$ Any)
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout/express
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "10-Jan-2020",
+  "items": [
+    { "productId": "PRD01", "unitPrice": 1.20, "quantity": 10 },
+    { "productId": "PRD02", "unitPrice": 1.30, "quantity": 5  },
+    { "productId": "PRD04", "unitPrice": 2.30, "quantity": 3  }
+  ]
+}
+
+###
+
+### Express checkout – PP002 + DP001 Fuel overlap (10-Feb-2020)
+# PP002: 3 pts/$ Fuel  |  DP001: 20% off PRD01+PRD02
+# Expects: pointsEarned > 0 (Fuel), discountApplied > 0 (PRD01 only)
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout/express
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "10-Feb-2020",
+  "items": [
+    { "productId": "PRD01", "unitPrice": 1.20, "quantity": 20 },
+    { "productId": "PRD03", "unitPrice": 1.10, "quantity": 8  },
+    { "productId": "PRD05", "unitPrice": 5.10, "quantity": 2  }
+  ]
+}
+
+###
+
+### Express checkout – PP003 + DP002 Shop overlap (10-Mar-2020)
+# PP003: 4 pts/$ Shop  |  DP002: 15% off PRD04–PRD08
+# Expects: discountApplied > 0, pointsEarned > 0
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout/express
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000002",
+  "transactionDate": "10-Mar-2020",
+  "items": [
+    { "productId": "PRD04", "unitPrice": 2.30, "quantity": 2 },
+    { "productId": "PRD06", "unitPrice": 3.40, "quantity": 2 },
+    { "productId": "PRD07", "unitPrice": 6.90, "quantity": 1 },
+    { "productId": "PRD08", "unitPrice": 4.00, "quantity": 3 }
+  ]
+}
+
+###
+
+### Express checkout – wrong price (400)
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout/express
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "03-Apr-2020",
+  "items": [
+    { "productId": "PRD01", "unitPrice": 9.99, "quantity": 5 }
+  ]
+}
+
+###
+
+### Express checkout – unknown product (404)
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout/express
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "03-Apr-2020",
+  "items": [
+    { "productId": "PRD99", "unitPrice": 1.00, "quantity": 1 }
+  ]
+}
+
+###
+
+### Express checkout – empty items array (400)
+POST {{EnergyCo.Loyalty_HostAddress}}/api/customers/{{CustomerId}}/basket/checkout/express
+Content-Type: application/json
+
+{
+  "loyaltyCard": "CTX0000001",
+  "transactionDate": "03-Apr-2020",
+  "items": []
+}
+
+###
