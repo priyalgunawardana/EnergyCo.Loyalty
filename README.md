@@ -1,6 +1,6 @@
 # EnergyCo Loyalty API
 
-A practical .NET Web API for managing customer loyalty baskets, applying discount and points promotions, and producing a final checkout summary.
+A .NET Web API for managing customer loyalty baskets, applying discount and points promotions, and producing a final checkout summary.
 This project was prepared for a technical assessment. I kept the implementation focused on clean API design, readable business logic, testability, 
 and a structure that can grow without making the solution unnecessarily complex.
 
@@ -443,9 +443,9 @@ I tried to keep the solution practical rather than over-engineered.
 
 The main focus was to show:
 
-- clear API design
-- clean business logic
-- testable application services
-- sensible architecture decisions
+- Clear API design
+- Clean business logic
+- Testable application services
+- Sensible architecture decisions
 - Docker and Postman support for easy review
-- a production-aware structure without unnecessary complexity
+- A production-aware structure without unnecessary complexity
